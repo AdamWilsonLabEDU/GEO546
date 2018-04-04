@@ -25,22 +25,36 @@ source("knitr_header.R")
 For `wallace` to work, **you need the latest version of R** (or at least later than version 3.2.4). Download for 
 [Windows](https://cran.r-project.org/bin/windows/base/) or [Mac](https://cran.r-project.org/bin/macosx/).
 
-Load necessary libraries. 
+## Install R libraries
+
+Use the package manager to install these packages:
+
+1. wallace
+2. dismo
+
+### Two ways to install packages
+
+1. `install.packages('wallace')`
+2. use the 'Package Manager'
+![](SDM_assets/InstalPackage.png)
+
+
+### Newer MacOS
+If you are on a mac running "High Sierra" (v10.13), you may need to run these two lines to connect Wallace with your Java software (that is probably already on your computer). 
+
 ```{r, message=F,eval=FALSE}
-install.packages('wallace')
-library(wallace)
-run_wallace() # this will open the Wallace GUI in a web browser
+# New versions of R/Mac may need to run these two lines
+jpath=system("find /Library/Java/ -name libjvm.dylib",intern = T)  # find java on your system
+dyn.load(jpath) # connect to your java
 ```
 
-<!-- Load necessary libraries.  -->
-<!-- ```{r, message=F,eval=FALSE} -->
-<!-- if (!require('devtools')) install.packages('devtools') -->
-<!-- devtools::install_github('rstudio/leaflet') -->
-<!-- install.packages('knitr',dep=T) # you need the latest version, even if you already have it -->
-<!-- install.packages('wallace',dep=T) -->
-<!-- library(wallace) -->
-<!-- run_wallace() # this will open the Wallace GUI in a web browser -->
-<!-- ``` -->
+## Run Wallace
+
+Copy paste these lines into R to open the Wallace application.
+```{r, eval=F}
+library(wallace)  # Load the library
+run_wallace()     # Open Wallace
+```
 
 
 The `wallace` GUI will open in your web browser and the R command line will be occupied (you only get a prompt back by pushing 'escape'). If you find this annoying and want to use your typical R command line, open a terminal window, type `R` to start R, and then run the lines above in that window. This will tie up your terminal window but not your usual R command line (e.g. RStudio, or the R GUI). **You need to avoid exiting your browser window or closing the R window that initiated `wallace` or you'll have to start over! Luckily that's pretty fast...** Using the terminal looks like this:
@@ -57,7 +71,7 @@ Typing `run_wallace()` will give you the following in your web browser:
 
 # Get Occurrence Data
 
-Start by getting about 300 records of **Acer rubrum** (red maple) from GBIF. Throughout, I'll use a red arrow in the images below to indicate which buttons I'm referring to.
+Start by getting about 100 records of **Acer saccharum** (sugar maple) from GBIF. Throughout, I'll use a red arrow in the images below to indicate which buttons I'm referring to.
 
 <!-- To download the data click [here](https://github.com/cmerow/RDataScience/blob/gh-pages/SDM_assets/Outputs/a_rubrum_gbif.csv) -->
 <!-- # ```{r} -->
@@ -65,7 +79,7 @@ Start by getting about 300 records of **Acer rubrum** (red maple) from GBIF. Thr
 <!-- # ``` -->
 
 <br>
-![](SDM_assets/Wallace1a.png)
+![](SDM_assets/wallace_01.png)
 
 <br>
 While you're at it, download the data for later use (bottom left).
@@ -73,22 +87,22 @@ While you're at it, download the data for later use (bottom left).
 Notice that there are tabs along the top, and you can view the sources of the occurrence data. Later you can choose to ditch some if it looks suspect.
 
 <br>
-![](SDM_assets/Wallace1b.png)
+![](SDM_assets/wallace_01b.png)
 
 
 <br>
 Each **Module** (the tabs labeled 1-8 at the top of the screen) comes with guidance and references by select the tabs at the right.
 
 <br>
-![](SDM_assets/Wallace1c.png)
+![](SDM_assets/wallace_01c.png)
 
 
-# Prep Occurrences
+# Prepare Occurrences
 
-Now let's clean up the data. If we want to model *A. Rubrum* in the US, we can toss that odd point in Europe. Click the point to see it's info and then enter the ID at the left to remove it.
+Now let's clean up the data. If we want to model *A. saccharum* in the US, we may want to toss points from other areas (such as Europe). You can do this by drawing a polygon around the points you want to keep.  In this case we probably want to keep them all, but for some species there may be errant points that you want to discard.
 
 <br>
-![](SDM_assets/Wallace2a.png)
+![](SDM_assets/wallace_02.png)
 
 <br>
 The samples may exhibit spatial autocorrelation, which is best to account for in the model or remove before modeling. For example, there might be a bunch of samples near cities because these are mostly from iNaturalist (citizen science) and citizen often live near cities. So lets spatially thin the points and make sure they're all at least 10km from one another. It takes a sec. That left me with 163 points for modeling (yours may be different).
@@ -96,11 +110,11 @@ The samples may exhibit spatial autocorrelation, which is best to account for in
 
 <br>
 
-![](SDM_assets/Wallace2b.png)
+![](SDM_assets/wallace_02b.png)
 
 <br>
 
-Download these points for later reference.
+You can download these points for later reference if desired.
 
 # Get environmental data
 
@@ -110,18 +124,19 @@ Choose the **10 arcmin** data and press download. The first time you use `wallac
 
 <br>
 
-![](SDM_assets/Wallace3a.png)
-Notice that the log window notes that one point was discarded because environmental data were not available.
+![](SDM_assets/wallace_03.png)
 
 <br>
 
 # Prep environmental data
 
-Now we need to choose the extent of the modeling domain. This jargon means that we have to define a sensible region to fit the model. Contrary to many publications, species ranges are not typically best modeling on domains defined by squares or political boundaries. Press some buttons on this screen to explore the options, but end up with something like what I show below. We'll explore the consequences shortly. Press the **Mask** button to trim the environmental layers to this polygon and download the result.
+Now we need to choose the extent of the modeling domain. This jargon means that we have to define a sensible region to fit the model. Contrary to many publications, species ranges are not typically best modeling on domains defined by squares or political boundaries. Press some buttons on this screen to explore the options, but end up with something similar to that shown below. Press the **Select** button to trim the environmental layers to this polygon and download the result.
+
+We will also need to select some **background** points to characterize the available habitat in the region.  This will be compared to the habitat of the observations to _infer_ whether there is a relationship with a particular type of environment.
 
 <br>
 
-![](SDM_assets/Wallace4a.png)
+![](SDM_assets/wallace_04.png)
 
 <br>
 
@@ -130,7 +145,7 @@ Now we need to choose the extent of the modeling domain. This jargon means that 
 In order to check whether you've built a decent model, you need some data to validate it. One solution is to partition your data into subsets (here 4) and build a models while witholding 1 subset at a time. Here we have 4 subsets, so we build 4 models, allowing us to get 4 independent measures of model performance. This is called k-fold cross-validation, and here k=4. There's a whole literature on how to best make these subset; one option is to just do it randomly. A better option is to spatially stratify so that your model is forces to predict to regions that weren't used for fitting. If it predicts well, you know you've got the general patterns right and have avoided overfitting to noise in the data. Below, I show some options for spatial stratification. Notice the 4 folds are now shown as 4 colors. Again, download the data.
 
 <br>
-![](SDM_assets/Wallace5a.png)
+![](SDM_assets/wallace_05.png)
 
 
 <br>
@@ -139,8 +154,103 @@ Take a moment to scroll through the log window at the top of the screen and revi
 
 # Model
 
-Finally, we're going to make use of that results tab in the middle of the screen. Let's build a Maxent model; this is a machine learning method that fits wiggly functions to patterns in the data. Its great for exploring complex patterns. If you construct it with a particular set of decisions it becomes very similar to a simple GLM. So it can conver a wide spectrum of complexity. If you want more details, ask Cory; he's written a lot of papers on this so he may talk for while....
+Finally, we're going to make use of that results tab in the middle of the screen. 
 
+## BIOCLIM
+
+BIOCLIM is one of the simplest techniques for estimating a species’ niche and distribution. It characterizes the species’ observed environments (upper and lower limits of the training localities) for each axis independently, thereby delimiting its environmental envelope (or n-dimensional hypervolume of Hutchinson; Booth et al. 2014). 
+
+To do so and indicate conditions that are successively more commonly inhabited (inferred higher suitability), BIOCLIM generates a percentile distribution for each environmental predictor variable, considering the values associated with all occurrence localities. It then evaluates the ranking of environmental values for occurrence localities and other grid cells in the study region based on where they fall on these distributions (Hijmans and Graham 2006). The closer to the median percentile value, the more suitable an environmental value is considered, with both tails of the distribution interpreted identically. The minimum percentile score (full range of observed conditions) for any predictor variable is displayed on the map in Module Map Prediction in Component Visualize Model Results.
+
+## Model summary
+Look at the **Results** tab to see model summary statistics.  You can read more about these metrics in the "Component Guidance" tab.
+
+![](SDM_assets/wallace_06.png)
+
+
+# Visualize
+
+## BIOCLIM Envelope Plots
+To evaluate whether the model makes biological sense, we can look at climatic envelopes that define the estimated 'hyperdimensional' niche. Bioclim does not seem to do a great job at uniquely identifying the appropriate ranges of each variable (note that the ) Note that the units are degrees C x 100; worldclim serves the files this way to compress them.)
+
+
+<div class="well">
+## BIOCLIM variables
+The **bioclim** predictors are a series of summaries of temp and precip that may have some biological significance.
+<button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo1">Show variables</button>
+<div id="demo1" class="collapse">
+* BIO1 = Annual Mean Temperature
+* BIO2 = Mean Diurnal Range (Mean of monthly (max temp - min temp))
+* BIO3 = Isothermality (BIO2/BIO7) (* 100)
+* BIO4 = Temperature Seasonality (standard deviation *100)
+* BIO5 = Max Temperature of Warmest Month
+* BIO6 = Min Temperature of Coldest Month
+* BIO7 = Temperature Annual Range (BIO5-BIO6)
+* BIO8 = Mean Temperature of Wettest Quarter
+* BIO9 = Mean Temperature of Driest Quarter
+* BIO10 = Mean Temperature of Warmest Quarter
+* BIO11 = Mean Temperature of Coldest Quarter
+* BIO12 = Annual Precipitation
+* BIO13 = Precipitation of Wettest Month
+* BIO14 = Precipitation of Driest Month
+* BIO15 = Precipitation Seasonality (Coefficient of Variation)
+* BIO16 = Precipitation of Wettest Quarter
+* BIO17 = Precipitation of Driest Quarter
+* BIO18 = Precipitation of Warmest Quarter
+* BIO19 = Precipitation of Coldest Quarter
+
+Read more about them [here](http://www.worldclim.org/bioclim).
+</div>
+</div>
+
+![](SDM_assets/wallace_07.png)
+
+## Map Predictions
+
+We can also map the predictions. At first glance it looks like a decent model because the presence points correspond to regions of higher suitability.
+
+![](SDM_assets/wallace_07b.png)
+
+If you want to estimate presence/absence instead of a continuous suitability, select a threshold.
+
+![](SDM_assets/wallace_07c.png)
+
+# Project
+
+Next we can evaluate the models ability to project first to new locations (extending the domain) and/or new times (2070). First, extend the domain by drawing a polygon like the one below. Double-clicking on each of the 4 corners of this one draws the polygon. Next, press `Select` and then `Project` to build the new map.
+
+![](SDM_assets/wallace_08.png)
+
+See below for the projected change in the range of this species in 2070.
+
+![](SDM_assets/wallace_08b.png)
+
+
+<div class="well">
+## MAXENT
+<button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo2">Show Details </button>
+<div id="demo2" class="collapse">
+
+Maxent is a much more sophisticated modeling framework that has many advantages over the 'bioclim' approach used above.  However, it takes some more work to install.  If you are feeling adventurous, you can try the following.
+
+Maxent is a machine learning method that fits wiggly functions to patterns in the data. Its great for exploring complex patterns. If you construct it with a particular set of decisions it becomes very similar to a simple GLM. 
+
+### Download "MAXENT"
+Notice that the first time you run this, you may get an error about maxent.jar. You will need to put the maxent software (maxent.jar) in the directory where `wallace` will look for it. Follow the instruction, you will need to download MAXENT from here http://biodiversityinformatics.amnh.org/open_source/maxent/. You will then need to click on the download link (or you can click on the green "I prefer to download without providing this information")
+
+<br>
+![](SDM_assets/maxent_download.png)
+
+Or, if you prefer, you can just click on this link: 
+http://biodiversityinformatics.amnh.org/open_source/maxent/maxent.php?op=download
+
+You will then need to:
+
+1. unzip the folder
+2. move the file `maxent.jar` into the correct folder for R to find it.  On my mac, this was `/Library/Frameworks/R.framework/Versions/3.4/Resources/library/dismo/java/maxent.jar
+`, but you can find your path in the error message from wallace.
+
+### MAXENT settings
 Below I've chosen some modeling options:
 
   - Select the Maxent button
@@ -159,82 +269,25 @@ Below I've chosen some modeling options:
   - RM Step Value = 1
     + how large of step to take between values in the slide bar above.
 
-This takes about 2 min; you're building 3 model types and 4 folds for each, and you're using a load of features...
+In the figure below is the non-linear response curve for this species with BIO05 (Max Temperature of Warmest Month).  The shape of this curve suggests that this species prefers mid-range temperatures (not too hot, not too cold).   
 
-<br>
-![](SDM_assets/Wallace6a.png)
+![](SDM_assets/wallace_maxent_01.png)
 
-<br>
-Notice that the first time I ran this, I got an error, which you may get too. You need to put the maxent software (maxent.jar) in the directory where `wallace` will look for it. This is a bug we're working on. As the log window indicates, download the file and put it in the appropriate directory. Then click **Run Models** again. The result is number of statistics to compare the different models you just built. There should be 3: one for each of the regularization multipliers 1,2,3.
+The figure below shows the projected suitability of this species across the original domain using MAXENT.  
 
-<br>
-![](SDM_assets/Wallace6b.png)
+![](SDM_assets/wallace_maxent_02.png)
 
 
+</div>
+</div>
 
 
-<br>
-
-# Visualize
-Now let's see which model performs best. Statistics based on the data witheld from fitting (**test data**) are the most reliable for determining the model's generality and ability to transfer to other locations. The model with regularization mulitiple = 2 appears to be the best model based on avg.test.auc=0.804. Moving to the Visualize tab (module 7), you can plot the performance statistics across models. Explore the options a little.
-
-<br>
-![](SDM_assets/Wallace7a.png)
-
-<br>
-
-To evaluate whether the model makes biological sense, we can look at **response curves** that define how each predictor (x-axis) relates to suitability (y-axis). The modal shape seems reasonable; there are places where the temp range is both too wide and too narrow for A. rubrum. The little jagged pieces intuitively seem like overfitting; why would a species, over an evolutionary time span, have an abrupt dip in response to temp range (as seen around 430). (Note that the units are degrees C x 100; worldclim serves the files this way to compress them.)
-
-The **bioclim** predictors are a series of summaries of temp and precip that have been determined to have some biological significance. They're all listed [here](http://www.worldclim.org/bioclim). bio7, seen below, is the annual temperature range.
-
-<br>
-
-![](SDM_assets/Wallace7b.png)
-<br>
-
-We can also map the predictions. At first glance it looks like a decent model because the presence points correspond to regions of higher suitability.
-
-<br>
-
-![](SDM_assets/Wallace7c.png)
-
-<br>
-
-# Project
-
-Next we can evaluate the models ability to project first to new locations (extending the domain) and new times (2070). First, extend the domain by drawing a polygon like the one below. Double-clicking on each of the 4 corners of this one draws the polygon. Next, press `Select` and then `Project` to build the new map.
-
-<br>
-
-![](SDM_assets/Wallace8a.png)
-
-<br>
-
-Below are the predictions to a much larger region. Looks like northern Canada should get ready for a red maple invasion... So it appears we've fit a response that doesn't generalize well to other regions. One way to determine how that happened is to look back at the response curves to determine which predictors are contributing to high suitability in northern Canada. This is best done with MESS plots in the maxent software package, and we haven't included those in `wallace` just yet. So we'll explore another way to avoid this poor prediction below.
-
-
-As another example, of `wallace`'s features, we can also project to future climate scenarios. Select the options as below and forecast the future range of A. rubrum under an extreme climate change scenario.
-<br>
-
-![](SDM_assets/Wallace8b.png)
-
-
-<br>
-
-![](SDM_assets/Wallace8c.png)
-
-
-<br>
-
-![](SDM_assets/Wallace8d.png)
-
-<br>
 
 # Extracting the code
 
 A major advantage of `wallace` compared to other GUI-based software is that you can extract all the code used to run the analysis. This allows you to recall what you did, share it, or modify it. The code is best extracted in **R markdown** format, which is a convienient format for combining R and text (and actually forms the basis of this website). Other formats are also available; for example Microsoft Word output mught be useful if you live in the '90s.
 
-To download the code, select Rmd and click Download. You may need to go to your R window and allow R to set up a cache to proceed. Extraction takes a minute; currently it has to rerun all the analyses we just did. We'll fix this in an upcoming release to avoid the redundancy.
+To download the code, select Rmd and click Download. You may need to go to your R window and allow R to set up a cache to proceed. Extraction takes a minute; currently it has to rerun all the analyses we just did. 
 
 <br>
 
@@ -242,7 +295,7 @@ To download the code, select Rmd and click Download. You may need to go to your 
 
 <br>
 
-Now, you should have an .Rmd file that contains your complete analysis. Sometimes, if you make a bunch of mistakes while playing with the GUI, you might get an error when extracting the .Rmd. If that happens, you can download mine [here](https://cmerow.github.io/RDataScience/SDM_assets/Outputs/wallace-session-2017-01-26.Rmd)
+Now, you should have an .Rmd file that contains your complete analysis. Sometimes, if you make a bunch of mistakes while playing with the GUI, you might get an error when extracting the .Rmd. 
 
 Rmd files combine regular text with **code chunks**, shown by the red arrow below. Modules from `wallace` are indicated as headers denoted by **###**. For a quick reference to Rmd syntax, see [here](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 
@@ -250,27 +303,3 @@ Rmd files combine regular text with **code chunks**, shown by the red arrow belo
 
 ![](SDM_assets/WallaceRMDa.png)
 <br>
-
-You might want to open a new R window and try running some of this code. Just note that if you close your `wallace` session you'll lose your progress in the web browser (but your Rmd will be unaffected).
-
-If you use RStudio, you can open this Rmd an click to **knit** to compile your workflow into a sharable html document. Just in case you encountered an error, you can see mine [here](https://cmerow.github.io/RDataScience/SDM_assets/Outputs/wallace-session-2017-01-26.html)
-
-Note that you can change anything you like in this code to build upon your workflow. Future versions of `wallace` will enable you to upload such modified Rmds to `wallace` to fill in all the options you chose and pick up where you left off in a previous analysis in the GUI.
-
-At the moment we don't have anything built into `wallace` for post-processing, so you can use R directly to build from the code created above.
-
-# Improving the model
-
-Let's revisit that crappy prediction into northern Canada. This issue derived from a poor choice of modeling domain and an overfit model. Try rerunning the analysis by extending the domain to include many locations where the species does not occur (see below) and using a simpler model that includes only linear and quadtratic features.
-
-<br>
-
-![](SDM_assets/WallaceNexta.png)
-
-<br>
-
-Here are the improved predictions that avoid prediction in northern Canada.
-
-<br>
-
-![](SDM_assets/WallaceNexta.png)
