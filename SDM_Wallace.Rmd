@@ -27,13 +27,21 @@ For `wallace` to work, **you need the latest version of R** (or at least later t
 
 Load necessary libraries. 
 ```{r, message=F,eval=FALSE}
-if (!require('devtools')) install.packages('devtools')
-devtools::install_github('rstudio/leaflet')
-install.packages('knitr',dep=T) # you need the latest version, even if you already have it
-install.packages('wallace',dep=T)
+install.packages('wallace')
 library(wallace)
 run_wallace() # this will open the Wallace GUI in a web browser
 ```
+
+<!-- Load necessary libraries.  -->
+<!-- ```{r, message=F,eval=FALSE} -->
+<!-- if (!require('devtools')) install.packages('devtools') -->
+<!-- devtools::install_github('rstudio/leaflet') -->
+<!-- install.packages('knitr',dep=T) # you need the latest version, even if you already have it -->
+<!-- install.packages('wallace',dep=T) -->
+<!-- library(wallace) -->
+<!-- run_wallace() # this will open the Wallace GUI in a web browser -->
+<!-- ``` -->
+
 
 The `wallace` GUI will open in your web browser and the R command line will be occupied (you only get a prompt back by pushing 'escape'). If you find this annoying and want to use your typical R command line, open a terminal window, type `R` to start R, and then run the lines above in that window. This will tie up your terminal window but not your usual R command line (e.g. RStudio, or the R GUI). **You need to avoid exiting your browser window or closing the R window that initiated `wallace` or you'll have to start over! Luckily that's pretty fast...** Using the terminal looks like this:
 
