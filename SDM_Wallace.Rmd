@@ -20,6 +20,15 @@ source("knitr_header.R")
 
 <!-- [<i class="fa fa-file-code-o fa-3x" aria-hidden="true"></i> The R Script associated with this page is available here](`r output`).  Download this file and open it (or copy-paste into a new script) with RStudio so you can follow along.   -->
 
+# Overview and Objectives
+
+In this exercise you will develop a simple species distribution model.  
+
+Objectives:
+
+1. Understand how species distribution models work
+2. Use the wallace software to develop a species distribution model and project it into a new time or place.
+3. 
 
 # Setup
 For `wallace` to work, **you need the latest version of R** (or at least later than version 3.2.4). Download for 
@@ -30,7 +39,6 @@ For `wallace` to work, **you need the latest version of R** (or at least later t
 Use the package manager to install these packages:
 
 1. wallace
-2. dismo
 
 ### Two ways to install packages
 
@@ -38,15 +46,6 @@ Use the package manager to install these packages:
 2. use the 'Package Manager'
 ![](SDM_assets/InstalPackage.png)
 
-
-### Newer MacOS
-If you are on a mac running "High Sierra" (v10.13), you may need to run these two lines to connect Wallace with your Java software (that is probably already on your computer). 
-
-```{r, message=F,eval=FALSE}
-# New versions of R/Mac may need to run these two lines
-jpath=system("find /Library/Java/ -name libjvm.dylib",intern = T)  # find java on your system
-dyn.load(jpath) # connect to your java
-```
 
 ## Run Wallace
 
@@ -67,6 +66,22 @@ Typing `run_wallace()` will give you the following in your web browser:
 
 <br>
 ![](SDM_assets/Wallace_Intro.png)
+
+<div class="well">
+
+## MacOS problems?
+
+<button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo0">Show suggestions</button>
+<div id="demo0" class="collapse">
+If you are on a mac running "High Sierra" (v10.13), you may need to run these two lines to connect Wallace with your Java software (that is probably already on your computer). 
+```{r, message=F,eval=FALSE}
+# New versions of R/Mac may need to run these two lines
+jpath=system("find /Library/Java/ -name libjvm.dylib",intern = T)  # find java on your system
+dyn.load(jpath) # connect to your java
+```
+
+</div>
+</div>
 
 
 # Get Occurrence Data
@@ -171,7 +186,7 @@ Look at the **Results** tab to see model summary statistics.  You can read more 
 # Visualize
 
 ## BIOCLIM Envelope Plots
-To evaluate whether the model makes biological sense, we can look at climatic envelopes that define the estimated 'hyperdimensional' niche. Bioclim does not seem to do a great job at uniquely identifying the appropriate ranges of each variable (note that the ) Note that the units are degrees C x 100; worldclim serves the files this way to compress them.)
+To evaluate whether the model makes biological sense, we can look at climatic envelopes that define the estimated 'hyperdimensional' niche. 
 
 
 <div class="well">
@@ -202,6 +217,8 @@ The **bioclim** predictors are a series of summaries of temp and precip that may
 Read more about them [here](http://www.worldclim.org/bioclim).
 </div>
 </div>
+
+See below for a graph of two of the BIOCLIM variables with presences (red crosses) and background points (green circles).  The blue box represents the 'climate envelope'.  On first glance the envelop does not seem to do a great job for these two variables, but withhold judgement until you assess the maps below.   Note that the units for temperature variables are degrees C x 100; worldclim serves the files this way to compress them.)
 
 ![](SDM_assets/wallace_07.png)
 
@@ -303,3 +320,24 @@ Rmd files combine regular text with **code chunks**, shown by the red arrow belo
 
 ![](SDM_assets/WallaceRMDa.png)
 <br>
+
+
+# Assignment
+
+You will use the workflow detailed above to study how the distibution of a species could be affected by future climate change.  You may select any species (or potentially use the sugar maple as outlined above).
+
+## Detailed Instructions
+1. Define your species of interest.  
+2. Define your hypothesis. 
+Hypotheses should be a clear, falsifiable statement related to some aspect of species distributions and climate.  For example, "the projected range of X species is likely to shift under future climate change" or similar. 
+3. Conduct the analysis like you did in the example. You need at least one graph to support your analysis, results and conclusions.
+
+## Detailed report notes
+Be sure to include the details noted below and answers to the following questions in the results and/or discussion section of your report.
+You will organize your assignment in the traditional ‘scientific paper’ format with the following sections:
+
+1. **Introduction** What did you do? Why did you do it?  Even though you will be following the instructions above, write as if the analysis was your idea. This section should end with a clearly defined question/objective for the paper.  For example, "In this study I will explore the projected change...".   
+2. **Methods** What sources/models did you use? What variables/ time frames did you compare?  How did you do it?  Write this as if it were a paper, so don’t say "I made this graph..." Instead, summarize the meaning of what you did.
+3. **Results** What did you find?  Be as quantitative as possible and refer to the values shown on the graphs.  
+4. **Discussion / Conclusion** Make conclusions about if your results support your hypothesis. Discuss why your results do or do not support your hypothesis, how to explain your results and conclusions, and what your conclusions mean to the big context in effects from climate change on ecosystem production. 
+5. **References**
