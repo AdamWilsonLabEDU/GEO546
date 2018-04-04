@@ -28,17 +28,13 @@
 #' For `wallace` to work, **you need the latest version of R** (or at least later than version 3.2.4). Download for 
 #' [Windows](https://cran.r-project.org/bin/windows/base/) or [Mac](https://cran.r-project.org/bin/macosx/).
 #' 
-#' ## Install R libraries
+#' ## Install Wallace libraries
 #' 
-#' Use the package manager to install these packages:
-#' 
-#' 1. wallace
-#' 
-#' ### Two ways to install packages
+#' Two ways to install packages in R:
 #' 
 #' 1. `install.packages('wallace')`
-#' 2. use the 'Package Manager'
-#' ![](SDM_assets/InstalPackage.png)
+#' 2. Use the 'Package Manager' and search for `wallace`.
+#' ![](SDM_assets/PackageInstall.png)
 #' 
 #' 
 #' ## Run Wallace
