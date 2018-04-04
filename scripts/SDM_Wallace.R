@@ -22,7 +22,7 @@
 #' 
 #' 1. Understand how species distribution models work
 #' 2. Use the wallace software to develop a species distribution model and project it into a new time or place.
-#' 3. 
+#' 3. Understand the limitations of species distribution models.
 #' 
 #' # Setup
 #' For `wallace` to work, **you need the latest version of R** (or at least later than version 3.2.4). Download for 
