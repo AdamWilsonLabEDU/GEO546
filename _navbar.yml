@@ -1,0 +1,13 @@
+title: "GEO 546: Global Change Ecology"
+type: inverse
+left:
+  - text: "Home"
+    href: index.html
+  - text: "Content"
+    menu:
+      - text: "Exercise 4: Species Distribution Modelling"
+        href: SDM_Wallace.html
+
+right:
+  - icon: fa-github fa-lg
+    href: https://github.com/adammwilson/RDataScience
