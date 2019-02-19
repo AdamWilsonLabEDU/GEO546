@@ -7,3 +7,6 @@ packrat/lib*/
 wc10*
 *rds*
 *nc
+*.httr-oauth*
+*secrets*
+
