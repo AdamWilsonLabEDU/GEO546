@@ -25,7 +25,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -94,6 +96,9 @@ img {
 }
 .tabbed-pane {
   padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
 }
 button.code-folding-btn:focus {
   outline: none;
@@ -333,39 +338,38 @@ div.tocify {
 <li>Understand the limitations of species distribution models.</li>
 </ol>
 </div>
-<div id="setup" class="section level1">
+<div id="setup" class="section level1 tabset">
 <h1>Setup</h1>
-<p>For <code>wallace</code> to work, <strong>you need the latest version of R</strong> (or at least later than version 3.2.4). Download for <a href="https://cran.r-project.org/bin/windows/base/">Windows</a> or <a href="https://cran.r-project.org/bin/macosx/">Mac</a>.</p>
-<div id="install-wallace-libraries" class="section level2">
-<h2>Install Wallace libraries</h2>
-<p>Two ways to install packages in R:</p>
+<div id="run-in-rstudio-cloud" class="section level2">
+<h2>Run in RStudio Cloud</h2>
+<p>You can use wallace (and run R) in the cloud with <a href="https://rstudio.cloud">RStudio Cloud</a>. This is a free-to-use service of RStudio. Note that Wallace is more unstable this way, so it may freeze up on you and you’ll need to start over. However, it doesn’t take much time to re-run an analysis so this isn’t a huge problem.</p>
 <ol style="list-style-type: decimal">
-<li><code>install.packages('wallace')</code></li>
-<li>Use the ‘Package Manager’ and search for <code>wallace</code>. <img src="SDM_assets/PackageInstall.png" /></li>
+<li>Go to <a href="https://rstudio.cloud">RStudio Cloud</a></li>
+<li>Create a free account</li>
+<li>Click “New Project” in the upper right</li>
+<li>After your new project opens, name it by replacing “Untitled Project” with something more meaningful (maybe “Wallace”)</li>
 </ol>
 </div>
-<div id="run-wallace" class="section level2">
-<h2>Run Wallace</h2>
-<p>Copy paste these lines into R to open the Wallace application.</p>
+<div id="run-locally" class="section level2">
+<h2>Run Locally</h2>
+<p>For <code>wallace</code> to work, <strong>you need the latest version of R</strong> (or at least later than version 3.2.4). Download for <a href="https://cran.r-project.org/bin/windows/base/">Windows</a> or <a href="https://cran.r-project.org/bin/macosx/">Mac</a>.</p>
+</div>
+</div>
+<div id="install-wallace-libraries" class="section level1">
+<h1>Install Wallace libraries</h1>
+<p>Paste the following lines into the middle panel at the <code>&gt;</code> sign:</p>
+<pre><code>install.packages(&quot;rgdal&quot;)
+install.packages(&quot;wallace&quot;)</code></pre>
+<p>It will take a few minutes to install this software (and you will see lots of red text flow by). You will only need to install the libraries once. After they are installed you can just load the libraries as shown below.</p>
+</div>
+<div id="load-and-run-wallace" class="section level1">
+<h1>Load and Run Wallace</h1>
+<p>Open the Wallace graphical user interface (GUI) by running the following commands:</p>
 <pre class="r"><code>library(wallace)  # Load the library
 run_wallace()     # Open Wallace</code></pre>
-<p>The <code>wallace</code> GUI will open in your web browser and the R command line will be occupied (you only get a prompt back by pushing ‘escape’). If you find this annoying and want to use your typical R command line, open a terminal window, type <code>R</code> to start R, and then run the lines above in that window. This will tie up your terminal window but not your usual R command line (e.g. RStudio, or the R GUI). <strong>You need to avoid exiting your browser window or closing the R window that initiated <code>wallace</code> or you’ll have to start over! Luckily that’s pretty fast…</strong> Using the terminal looks like this:</p>
-<p><br> <img src="SDM_assets/Wallace_Introb.png" /></p>
+<p>The <code>wallace</code> GUI will open in your web browser and the R command line will be occupied (you only get a prompt back by pushing ‘escape’). You may need to give permission to open a ‘popup’. <strong>You need to avoid exiting your browser window or closing the R window that initiated <code>wallace</code> or you’ll have to start over! Luckily that’s pretty fast…</strong></p>
 <p><br> Typing <code>run_wallace()</code> will give you the following in your web browser:</p>
 <p><br> <img src="SDM_assets/Wallace_Intro.png" /></p>
-<div class="well">
-<h2 id="macos-problems">MacOS problems?</h2>
-<button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo0">
-Show suggestions
-</button>
-<div id="demo0" class="collapse">
-<p>If you are on a mac running “High Sierra” (v10.13), you may need to run these two lines to connect Wallace with your Java software (that is probably already on your computer).</p>
-<pre class="r"><code># New versions of R/Mac may need to run these two lines
-jpath=system(&quot;find /Library/Java/ -name libjvm.dylib&quot;,intern = T)  # find java on your system
-dyn.load(jpath) # connect to your java</code></pre>
-</div>
-</div>
-</div>
 </div>
 <div id="get-occurrence-data" class="section level1">
 <h1>Get Occurrence Data</h1>
@@ -375,7 +379,6 @@ dyn.load(jpath) # connect to your java</code></pre>
 <!-- # download.file(url='https://github.com/cmerow/RDataScience/blob/gh-pages/SDM_assets/Outputs/a_rubrum_gbif.csv',destfile='/Users/ctg/Desktop/acer.csv') -->
 <!-- # ``` -->
 <p><br> <img src="SDM_assets/wallace_01.png" /></p>
-<p><br> While you’re at it, download the data for later use (bottom left).</p>
 <p>Notice that there are tabs along the top, and you can view the sources of the occurrence data. Later you can choose to ditch some if it looks suspect.</p>
 <p><br> <img src="SDM_assets/wallace_01b.png" /></p>
 <p><br> Each <strong>Module</strong> (the tabs labeled 1-8 at the top of the screen) comes with guidance and references by select the tabs at the right.</p>
@@ -385,12 +388,9 @@ dyn.load(jpath) # connect to your java</code></pre>
 <h1>Prepare Occurrences</h1>
 <p>Now let’s clean up the data. If we want to model <em>A. saccharum</em> in the US, we may want to toss points from other areas (such as Europe). You can do this by drawing a polygon around the points you want to keep. In this case we probably want to keep them all, but for some species there may be errant points that you want to discard.</p>
 <p><br> <img src="SDM_assets/wallace_02.png" /></p>
-<p><br> The samples may exhibit spatial autocorrelation, which is best to account for in the model or remove before modeling. For example, there might be a bunch of samples near cities because these are mostly from iNaturalist (citizen science) and citizen often live near cities. So lets spatially thin the points and make sure they’re all at least 10km from one another. It takes a sec. That left me with 163 points for modeling (yours may be different).</p>
+<p><br> The samples may exhibit spatial autocorrelation, which is best to account for in the model or remove before modeling. For example, there might be a bunch of samples near cities because these are mostly from iNaturalist (citizen science) and citizen often live near cities. So lets spatially thin the points and make sure they’re all at least 10km from one another. It takes a sec. That left me with 61 points for modeling (yours may be different).</p>
 <p><br></p>
-<div class="figure">
-<img src="SDM_assets/wallace_02b.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_02b.png" /></p>
 <p><br></p>
 <p>You can download these points for later reference if desired.</p>
 </div>
@@ -399,10 +399,7 @@ dyn.load(jpath) # connect to your java</code></pre>
 <p>Now we need some covariates to describe occurrence patterns. Worldclim is global climate data base that is very popular to both use and complain about. It seems pretty good in regions with lots of weather stations, but has issues, especially with precipitation-related things. Lesson: statistical models have problems if you don’t have data. So its perfectly good for coarse resolution work, and was a decade ahead of competitors that are only emerging now. We’ll add those to Wallace eventually.</p>
 <p>Choose the <strong>10 arcmin</strong> data and press download. The first time you use <code>wallace</code> these data are slowly downloaded; after that you don’t have to wait. <strong>Don’t select finer resolution</strong> or you’ll be downloading while the rest of us are modeling.</p>
 <p><br></p>
-<div class="figure">
-<img src="SDM_assets/wallace_03.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_03.png" /></p>
 <p><br></p>
 </div>
 <div id="prep-environmental-data" class="section level1">
@@ -410,15 +407,12 @@ dyn.load(jpath) # connect to your java</code></pre>
 <p>Now we need to choose the extent of the modeling domain. This jargon means that we have to define a sensible region to fit the model. Contrary to many publications, species ranges are not typically best modeling on domains defined by squares or political boundaries. Press some buttons on this screen to explore the options, but end up with something similar to that shown below. Press the <strong>Select</strong> button to trim the environmental layers to this polygon and download the result.</p>
 <p>We will also need to select some <strong>background</strong> points to characterize the available habitat in the region. This will be compared to the habitat of the observations to <em>infer</em> whether there is a relationship with a particular type of environment.</p>
 <p><br></p>
-<div class="figure">
-<img src="SDM_assets/wallace_04.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_04.png" /></p>
 <p><br></p>
 </div>
 <div id="partition-occurrences" class="section level1">
 <h1>Partition occurrences</h1>
-<p>In order to check whether you’ve built a decent model, you need some data to validate it. One solution is to partition your data into subsets (here 4) and build a models while witholding 1 subset at a time. Here we have 4 subsets, so we build 4 models, allowing us to get 4 independent measures of model performance. This is called k-fold cross-validation, and here k=4. There’s a whole literature on how to best make these subset; one option is to just do it randomly. A better option is to spatially stratify so that your model is forces to predict to regions that weren’t used for fitting. If it predicts well, you know you’ve got the general patterns right and have avoided overfitting to noise in the data. Below, I show some options for spatial stratification. Notice the 4 folds are now shown as 4 colors. Again, download the data.</p>
+<p>In order to check whether you’ve built a decent model, you need some data to validate it. One solution is to partition your data into subsets (here 4) and build a models while witholding 1 subset at a time. Here we have 4 subsets, so we build 4 models, allowing us to get 4 independent measures of model performance. This is called k-fold cross-validation, and here k=4. There’s a whole literature on how to best make these subset; one option is to just do it randomly. A better option is to spatially stratify so that your model is forces to predict to regions that weren’t used for fitting. If it predicts well, you know you’ve got the general patterns right and have avoided overfitting to noise in the data. Below, I show some options for spatial stratification. Notice the 4 folds are now shown as 4 colors.</p>
 <p><br> <img src="SDM_assets/wallace_05.png" /></p>
 <p><br> Take a moment to scroll through the log window at the top of the screen and review all the steps you’ve taken so far.</p>
 </div>
@@ -427,29 +421,23 @@ dyn.load(jpath) # connect to your java</code></pre>
 <p>Finally, we’re going to make use of that results tab in the middle of the screen.</p>
 <div id="bioclim" class="section level2">
 <h2>BIOCLIM</h2>
-<p>BIOCLIM is one of the simplest techniques for estimating a species’ niche and distribution. It characterizes the species’ observed environments (upper and lower limits of the training localities) for each axis independently, thereby delimiting its environmental envelope (or n-dimensional hypervolume of Hutchinson; Booth et al. 2014).</p>
+<p>BIOCLIM is one of the simplest techniques for estimating a species’ niche and distribution. It characterizes the species’ observed environments (upper and lower limits of the training localities) for each axis independently, thereby delimiting its environmental envelope (or n-dimensional hypervolume of Hutchinson; Booth et al. 2014).</p>
 <p>To do so and indicate conditions that are successively more commonly inhabited (inferred higher suitability), BIOCLIM generates a percentile distribution for each environmental predictor variable, considering the values associated with all occurrence localities. It then evaluates the ranking of environmental values for occurrence localities and other grid cells in the study region based on where they fall on these distributions (Hijmans and Graham 2006). The closer to the median percentile value, the more suitable an environmental value is considered, with both tails of the distribution interpreted identically. The minimum percentile score (full range of observed conditions) for any predictor variable is displayed on the map in Module Map Prediction in Component Visualize Model Results.</p>
 </div>
 <div id="model-summary" class="section level2">
 <h2>Model summary</h2>
 <p>Look at the <strong>Results</strong> tab to see model summary statistics. You can read more about these metrics in the “Component Guidance” tab.</p>
-<div class="figure">
-<img src="SDM_assets/wallace_06.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_06.png" /></p>
 </div>
 </div>
 <div id="visualize" class="section level1">
-<h1>Visualize</h1>
+<h1>7 Visualize</h1>
 <div id="bioclim-envelope-plots" class="section level2">
 <h2>BIOCLIM Envelope Plots</h2>
 <p>To evaluate whether the model makes biological sense, we can look at climatic envelopes that define the estimated ‘hyperdimensional’ niche.</p>
 <div class="well">
 <h2 id="bioclim-variables">BIOCLIM variables</h2>
-The <strong>bioclim</strong> predictors are a series of summaries of temp and precip that may have some biological significance.
-<button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo1">
-Show variables
-</button>
+The <strong>bioclim</strong> predictors are a series of summaries of temp and precip that may have some biological significance. <button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo1">Show variables</button>
 <div id="demo1" class="collapse">
 <ul>
 <li>BIO1 = Annual Mean Temperature</li>
@@ -476,58 +464,32 @@ Show variables
 </div>
 </div>
 <p>See below for a graph of two of the BIOCLIM variables with presences (red crosses) and background points (green circles). The blue box represents the ‘climate envelope’. On first glance the envelop does not seem to do a great job for these two variables, but withhold judgement until you assess the maps below. Note that the units for temperature variables are degrees C x 100; worldclim serves the files this way to compress them.)</p>
-<div class="figure">
-<img src="SDM_assets/wallace_07.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_07.png" /></p>
 </div>
 <div id="map-predictions" class="section level2">
 <h2>Map Predictions</h2>
 <p>We can also map the predictions. At first glance it looks like a decent model because the presence points correspond to regions of higher suitability.</p>
-<div class="figure">
-<img src="SDM_assets/wallace_07b.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_07b.png" /></p>
 <p>If you want to estimate presence/absence instead of a continuous suitability, select a threshold.</p>
-<div class="figure">
-<img src="SDM_assets/wallace_07c.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_07c.png" /></p>
 </div>
 </div>
 <div id="project" class="section level1">
-<h1>Project</h1>
+<h1>8 Project</h1>
 <p>Next we can evaluate the models ability to project first to new locations (extending the domain) and/or new times (2070). First, extend the domain by drawing a polygon like the one below. Double-clicking on each of the 4 corners of this one draws the polygon. Next, press <code>Select</code> and then <code>Project</code> to build the new map.</p>
-<div class="figure">
-<img src="SDM_assets/wallace_08.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_08.png" /></p>
 <p>See below for the projected change in the range of this species in 2070.</p>
-<div class="figure">
-<img src="SDM_assets/wallace_08b.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_08b.png" /></p>
 <div class="well">
 <h2 id="maxent">MAXENT</h2>
 <button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo2">
 Show Details
 </button>
 <div id="demo2" class="collapse">
-<p>Maxent is a much more sophisticated modeling framework that has many advantages over the ‘bioclim’ approach used above. However, it takes some more work to install. If you are feeling adventurous, you can try the following.</p>
-<p>Maxent is a machine learning method that fits wiggly functions to patterns in the data. Its great for exploring complex patterns. If you construct it with a particular set of decisions it becomes very similar to a simple GLM.</p>
-<h3 id="download-maxent">Download “MAXENT”</h3>
-<p>Notice that the first time you run this, you may get an error about maxent.jar. You will need to put the maxent software (maxent.jar) in the directory where <code>wallace</code> will look for it. Follow the instruction, you will need to download MAXENT from here <a href="http://biodiversityinformatics.amnh.org/open_source/maxent/" class="uri">http://biodiversityinformatics.amnh.org/open_source/maxent/</a>. You will then need to click on the download link (or you can click on the green “I prefer to download without providing this information”)</p>
-<p><br> <img src="SDM_assets/maxent_download.png" /></p>
-<p>Or, if you prefer, you can just click on this link: <a href="http://biodiversityinformatics.amnh.org/open_source/maxent/maxent.php?op=download" class="uri">http://biodiversityinformatics.amnh.org/open_source/maxent/maxent.php?op=download</a></p>
-<p>You will then need to:</p>
-<ol style="list-style-type: decimal">
-<li>unzip the folder</li>
-<li>move the file <code>maxent.jar</code> into the correct folder for R to find it. On my mac, this was <code>/Library/Frameworks/R.framework/Versions/3.4/Resources/library/dismo/java/maxent.jar</code>, but you can find your path in the error message from wallace.</li>
-</ol>
-<h3 id="maxent-settings">MAXENT settings</h3>
-<p>Below I’ve chosen some modeling options:</p>
+<p>Maxent is a much more sophisticated modeling framework that has many advantages over the ‘bioclim’ approach used above. However, it tends to crash the Rstudio.cloud platform more often than bioclim. If you are feeling adventurous, you can try the following.</p>
+<p>Maxent is a machine learning method that fits wiggly functions to patterns in the data. Its great for exploring complex patterns. If you construct it with a particular set of decisions it becomes very similar to a simple GLM. ### MAXENT settings</p>
+<p>In the Modeling Tab, select “Maxent” and under Algorithm, select “maxnet.” Then explore the various options below.</p>
 <ul>
-<li>Select the Maxent button</li>
 <li>Select LQH features. These are the shapes that can be fit to the data:
 <ul>
 <li>L = Linear, e.g. temp + precip</li>
@@ -549,15 +511,9 @@ Show Details
 </ul></li>
 </ul>
 <p>In the figure below is the non-linear response curve for this species with BIO05 (Max Temperature of Warmest Month). The shape of this curve suggests that this species prefers mid-range temperatures (not too hot, not too cold).</p>
-<div class="figure">
-<img src="SDM_assets/wallace_maxent_01.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_maxent_01.png" /></p>
 <p>The figure below shows the projected suitability of this species across the original domain using MAXENT.</p>
-<div class="figure">
-<img src="SDM_assets/wallace_maxent_02.png" />
-
-</div>
+<p><img src="SDM_assets/wallace_maxent_02.png" /></p>
 </div>
 </div>
 </div>
@@ -566,10 +522,7 @@ Show Details
 <p>A major advantage of <code>wallace</code> compared to other GUI-based software is that you can extract all the code used to run the analysis. This allows you to recall what you did, share it, or modify it. The code is best extracted in <strong>R markdown</strong> format, which is a convienient format for combining R and text (and actually forms the basis of this website). Other formats are also available; for example Microsoft Word output mught be useful if you live in the ’90s.</p>
 <p>To download the code, select Rmd and click Download. You may need to go to your R window and allow R to set up a cache to proceed. Extraction takes a minute; currently it has to rerun all the analyses we just did.</p>
 <p><br></p>
-<div class="figure">
-<img src="SDM_assets/Wallace9a.png" />
-
-</div>
+<p><img src="SDM_assets/Wallace9a.png" /></p>
 <p><br></p>
 <p>Now, you should have an .Rmd file that contains your complete analysis. Sometimes, if you make a bunch of mistakes while playing with the GUI, you might get an error when extracting the .Rmd.</p>
 <p>Rmd files combine regular text with <strong>code chunks</strong>, shown by the red arrow below. Modules from <code>wallace</code> are indicated as headers denoted by <strong>###</strong>. For a quick reference to Rmd syntax, see <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">here</a></p>
@@ -579,28 +532,6 @@ Show Details
 <div id="assignment" class="section level1">
 <h1>Assignment</h1>
 <p>You will use the workflow detailed above to study how the distibution of a species could be affected by future climate change. You may select any species (or potentially use the sugar maple as outlined above).</p>
-<div id="detailed-instructions" class="section level2">
-<h2>Detailed Instructions</h2>
-<ol style="list-style-type: decimal">
-<li>Define your species of interest.<br />
-</li>
-<li>Define your hypothesis. Hypotheses should be a clear, falsifiable statement related to some aspect of species distributions and climate. For example, “the projected range of X species is likely to shift under future climate change” or similar.</li>
-<li>Conduct the analysis like you did in the example. You need at least one graph to support your analysis, results and conclusions.</li>
-</ol>
-</div>
-<div id="detailed-report-notes" class="section level2">
-<h2>Detailed report notes</h2>
-<p>Be sure to include the details noted below and answers to the following questions in the results and/or discussion section of your report. You will organize your assignment in the traditional ‘scientific paper’ format with the following sections:</p>
-<ol style="list-style-type: decimal">
-<li><strong>Introduction</strong> What did you do? Why did you do it? Even though you will be following the instructions above, write as if the analysis was your idea. This section should end with a clearly defined question/objective for the paper. For example, “In this study I will explore the projected change…”.<br />
-</li>
-<li><strong>Methods</strong> What sources/models did you use? What variables/ time frames did you compare? How did you do it? Write this as if it were a paper, so don’t say “I made this graph…” Instead, summarize the meaning of what you did.</li>
-<li><strong>Results</strong> What did you find? Be as quantitative as possible and refer to the values shown on the graphs.<br />
-</li>
-<li><strong>Discussion / Conclusion</strong> Make conclusions about if your results support your hypothesis. Discuss why your results do or do not support your hypothesis, how to explain your results and conclusions, and what your conclusions mean to the big context in effects from climate change on ecosystem production.</li>
-<li><strong>References</strong></li>
-</ol>
-</div>
 </div>
 
 <!-- Google Analytics -->

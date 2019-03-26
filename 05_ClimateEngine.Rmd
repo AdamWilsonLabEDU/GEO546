@@ -1,6 +1,5 @@
 ---
 title: "Climate Engine"
-output: html_document
 ---
 
 Today we'll use the [Climate Engine](http://climateengine.org) to explore various relationships related to climate, drought, fire, ecology, and agriculture.

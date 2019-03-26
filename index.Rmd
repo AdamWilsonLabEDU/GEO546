@@ -4,7 +4,6 @@ subtitle: "Global Change Ecology"
 ---
 
 Professor <a href="http://adamwilson.us"> Adam M. Wilson </a><br>
-Instructor <a href="https://sites.google.com/view/yingyingxie/home"> Yingying Xie </a><br>
 Department of Geography, & Graduate Program in Evolution, Ecology and Behavior <br> 
 University at Buffalo, Buffalo, NY
 

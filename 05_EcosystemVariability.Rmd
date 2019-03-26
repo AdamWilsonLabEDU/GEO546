@@ -5,7 +5,7 @@ title: "EcosystemVariability"
 
 ```{r}
 
-raster()
+#raster()
 
 ```
 

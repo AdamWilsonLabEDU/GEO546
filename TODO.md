@@ -18,11 +18,10 @@ Tasks:
 2) Leading discussions
 3) Lab assignments
 4) Critical review of a published paper (like peer review)
-4) 
 
 
 # Weekly rhythm
-3 parrts
+3 parts
 
 1) lecture
 2) discussion based on readings (50 minutes)

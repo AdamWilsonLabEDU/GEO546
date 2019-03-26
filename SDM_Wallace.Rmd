@@ -30,55 +30,47 @@ Objectives:
 2. Use the wallace software to develop a species distribution model and project it into a new time or place.
 3. Understand the limitations of species distribution models.
 
-# Setup
+# Setup {.tabset}
+## Run in RStudio Cloud
+
+You can use wallace (and run R) in the cloud with [RStudio Cloud](https://rstudio.cloud).  This is a free-to-use service of RStudio.  Note that Wallace is more unstable this way, so it may freeze up on you and you'll need to start over.  However, it doesn't take much time to re-run an analysis so this isn't a huge problem.
+
+1. Go to [RStudio Cloud](https://rstudio.cloud)
+2. Create a free account
+3. Click "New Project" in the upper right
+4. After your new project opens, name it by replacing "Untitled Project" with something more meaningful (maybe "Wallace")
+
+## Run Locally
 For `wallace` to work, **you need the latest version of R** (or at least later than version 3.2.4). Download for 
 [Windows](https://cran.r-project.org/bin/windows/base/) or [Mac](https://cran.r-project.org/bin/macosx/).
 
-## Install Wallace libraries
+# Install Wallace libraries
 
-Two ways to install packages in R:
+Paste the following lines into the middle panel at the `>` sign:
+```
+install.packages("rgdal")
+install.packages("wallace")
+```
+It will take a few minutes to install this software (and you will see lots of red text flow by).  You will only need to install the libraries once.  After they are installed you can just load the libraries as shown below.
 
-1. `install.packages('wallace')`
-2. Use the 'Package Manager' and search for `wallace`.
-![](SDM_assets/PackageInstall.png)
+# Load and Run Wallace
 
+Open the Wallace graphical user interface (GUI) by running the following commands:
 
-## Run Wallace
-
-Copy paste these lines into R to open the Wallace application.
 ```{r, eval=F}
 library(wallace)  # Load the library
 run_wallace()     # Open Wallace
 ```
 
 
-The `wallace` GUI will open in your web browser and the R command line will be occupied (you only get a prompt back by pushing 'escape'). If you find this annoying and want to use your typical R command line, open a terminal window, type `R` to start R, and then run the lines above in that window. This will tie up your terminal window but not your usual R command line (e.g. RStudio, or the R GUI). **You need to avoid exiting your browser window or closing the R window that initiated `wallace` or you'll have to start over! Luckily that's pretty fast...** Using the terminal looks like this:
+The `wallace` GUI will open in your web browser and the R command line will be occupied (you only get a prompt back by pushing 'escape'). You may need to give permission to open a 'popup'.   **You need to avoid exiting your browser window or closing the R window that initiated `wallace` or you'll have to start over! Luckily that's pretty fast...** 
 
-<br>
-![](SDM_assets/Wallace_Introb.png)
 
 <br>
 Typing `run_wallace()` will give you the following in your web browser:
 
 <br>
 ![](SDM_assets/Wallace_Intro.png)
-
-<div class="well">
-
-## MacOS problems?
-
-<button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo0">Show suggestions</button>
-<div id="demo0" class="collapse">
-If you are on a mac running "High Sierra" (v10.13), you may need to run these two lines to connect Wallace with your Java software (that is probably already on your computer). 
-```{r, message=F,eval=FALSE}
-# New versions of R/Mac may need to run these two lines
-jpath=system("find /Library/Java/ -name libjvm.dylib",intern = T)  # find java on your system
-dyn.load(jpath) # connect to your java
-```
-
-</div>
-</div>
-
 
 # Get Occurrence Data
 
@@ -92,8 +84,6 @@ Start by getting about 100 records of **Acer saccharum** (sugar maple) from GBIF
 <br>
 ![](SDM_assets/wallace_01.png)
 
-<br>
-While you're at it, download the data for later use (bottom left).
 
 Notice that there are tabs along the top, and you can view the sources of the occurrence data. Later you can choose to ditch some if it looks suspect.
 
@@ -116,7 +106,7 @@ Now let's clean up the data. If we want to model *A. saccharum* in the US, we ma
 ![](SDM_assets/wallace_02.png)
 
 <br>
-The samples may exhibit spatial autocorrelation, which is best to account for in the model or remove before modeling. For example, there might be a bunch of samples near cities because these are mostly from iNaturalist (citizen science) and citizen often live near cities. So lets spatially thin the points and make sure they're all at least 10km from one another. It takes a sec. That left me with 163 points for modeling (yours may be different).
+The samples may exhibit spatial autocorrelation, which is best to account for in the model or remove before modeling. For example, there might be a bunch of samples near cities because these are mostly from iNaturalist (citizen science) and citizen often live near cities. So lets spatially thin the points and make sure they're all at least 10km from one another. It takes a sec. That left me with 61 points for modeling (yours may be different).
 
 
 <br>
@@ -153,7 +143,7 @@ We will also need to select some **background** points to characterize the avail
 
 # Partition occurrences
 
-In order to check whether you've built a decent model, you need some data to validate it. One solution is to partition your data into subsets (here 4) and build a models while witholding 1 subset at a time. Here we have 4 subsets, so we build 4 models, allowing us to get 4 independent measures of model performance. This is called k-fold cross-validation, and here k=4. There's a whole literature on how to best make these subset; one option is to just do it randomly. A better option is to spatially stratify so that your model is forces to predict to regions that weren't used for fitting. If it predicts well, you know you've got the general patterns right and have avoided overfitting to noise in the data. Below, I show some options for spatial stratification. Notice the 4 folds are now shown as 4 colors. Again, download the data.
+In order to check whether you've built a decent model, you need some data to validate it. One solution is to partition your data into subsets (here 4) and build a models while witholding 1 subset at a time. Here we have 4 subsets, so we build 4 models, allowing us to get 4 independent measures of model performance. This is called k-fold cross-validation, and here k=4. There's a whole literature on how to best make these subset; one option is to just do it randomly. A better option is to spatially stratify so that your model is forces to predict to regions that weren't used for fitting. If it predicts well, you know you've got the general patterns right and have avoided overfitting to noise in the data. Below, I show some options for spatial stratification. Notice the 4 folds are now shown as 4 colors. 
 
 <br>
 ![](SDM_assets/wallace_05.png)
@@ -179,7 +169,7 @@ Look at the **Results** tab to see model summary statistics.  You can read more 
 ![](SDM_assets/wallace_06.png)
 
 
-# Visualize
+# 7 Visualize
 
 ## BIOCLIM Envelope Plots
 To evaluate whether the model makes biological sense, we can look at climatic envelopes that define the estimated 'hyperdimensional' niche. 
@@ -228,7 +218,7 @@ If you want to estimate presence/absence instead of a continuous suitability, se
 
 ![](SDM_assets/wallace_07c.png)
 
-# Project
+# 8 Project
 
 Next we can evaluate the models ability to project first to new locations (extending the domain) and/or new times (2070). First, extend the domain by drawing a polygon like the one below. Double-clicking on each of the 4 corners of this one draws the polygon. Next, press `Select` and then `Project` to build the new map.
 
@@ -244,29 +234,13 @@ See below for the projected change in the range of this species in 2070.
 <button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo2">Show Details </button>
 <div id="demo2" class="collapse">
 
-Maxent is a much more sophisticated modeling framework that has many advantages over the 'bioclim' approach used above.  However, it takes some more work to install.  If you are feeling adventurous, you can try the following.
+Maxent is a much more sophisticated modeling framework that has many advantages over the 'bioclim' approach used above.  However, it tends to crash the Rstudio.cloud platform more often than bioclim.   If you are feeling adventurous, you can try the following.
 
 Maxent is a machine learning method that fits wiggly functions to patterns in the data. Its great for exploring complex patterns. If you construct it with a particular set of decisions it becomes very similar to a simple GLM. 
-
-### Download "MAXENT"
-Notice that the first time you run this, you may get an error about maxent.jar. You will need to put the maxent software (maxent.jar) in the directory where `wallace` will look for it. Follow the instruction, you will need to download MAXENT from here http://biodiversityinformatics.amnh.org/open_source/maxent/. You will then need to click on the download link (or you can click on the green "I prefer to download without providing this information")
-
-<br>
-![](SDM_assets/maxent_download.png)
-
-Or, if you prefer, you can just click on this link: 
-http://biodiversityinformatics.amnh.org/open_source/maxent/maxent.php?op=download
-
-You will then need to:
-
-1. unzip the folder
-2. move the file `maxent.jar` into the correct folder for R to find it.  On my mac, this was `/Library/Frameworks/R.framework/Versions/3.4/Resources/library/dismo/java/maxent.jar
-`, but you can find your path in the error message from wallace.
-
 ### MAXENT settings
-Below I've chosen some modeling options:
 
-  - Select the Maxent button
+In the Modeling Tab, select "Maxent" and under Algorithm, select "maxnet."  Then explore the various options below.
+
   - Select LQH features. These are the shapes that can be fit to the data: 
     + L = Linear, e.g. temp + precip
     + Q = Quadratic, e.g. temp^2 + precip^2
@@ -320,20 +294,4 @@ Rmd files combine regular text with **code chunks**, shown by the red arrow belo
 
 # Assignment
 
-You will use the workflow detailed above to study how the distibution of a species could be affected by future climate change.  You may select any species (or potentially use the sugar maple as outlined above).
-
-## Detailed Instructions
-1. Define your species of interest.  
-2. Define your hypothesis. 
-Hypotheses should be a clear, falsifiable statement related to some aspect of species distributions and climate.  For example, "the projected range of X species is likely to shift under future climate change" or similar. 
-3. Conduct the analysis like you did in the example. You need at least one graph to support your analysis, results and conclusions.
-
-## Detailed report notes
-Be sure to include the details noted below and answers to the following questions in the results and/or discussion section of your report.
-You will organize your assignment in the traditional ‘scientific paper’ format with the following sections:
-
-1. **Introduction** What did you do? Why did you do it?  Even though you will be following the instructions above, write as if the analysis was your idea. This section should end with a clearly defined question/objective for the paper.  For example, "In this study I will explore the projected change...".   
-2. **Methods** What sources/models did you use? What variables/ time frames did you compare?  How did you do it?  Write this as if it were a paper, so don’t say "I made this graph..." Instead, summarize the meaning of what you did.
-3. **Results** What did you find?  Be as quantitative as possible and refer to the values shown on the graphs.  
-4. **Discussion / Conclusion** Make conclusions about if your results support your hypothesis. Discuss why your results do or do not support your hypothesis, how to explain your results and conclusions, and what your conclusions mean to the big context in effects from climate change on ecosystem production. 
-5. **References**
+You will use the workflow detailed above to study how the distibution of a species could be affected by future climate change.  You may select any species (or potentially use the sugar maple as outlined above).  
