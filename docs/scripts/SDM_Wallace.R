@@ -1,6 +1,7 @@
 #' ---
 #' title: "Species Distribution Modelling with Wallace"
 #' ---
+
 #' 
 #' <!-- <div> -->
 #' <!-- <object data="SDM_assets/SDMs_Intro.pdf" type="application/pdf" width="100%" height="700px"> -->
@@ -25,13 +26,14 @@
 #' 3. Understand the limitations of species distribution models.
 #' 
 #' # Setup {.tabset}
-#' ## Run in RStudio Cloud
+#' ## Run in Posit Cloud
 #' 
-#' You can use wallace (and run R) in the cloud with [RStudio Cloud](https://rstudio.cloud).  This is a free-to-use service of RStudio.  Note that Wallace is more unstable this way, so it may freeze up on you and you'll need to start over.  However, it doesn't take much time to re-run an analysis so this isn't a huge problem.
+#' You can use wallace (and run R) in the cloud with [Posit Cloud](https://posit.cloud).  This is a free-to-use service that allows you to run RStudio or Python in a web browser.  Note that Wallace is more unstable this way, so it may freeze up on you and you'll need to start over.  However, it doesn't take much time to re-run an analysis so this isn't a huge problem.
 #' 
-#' 1. Go to [RStudio Cloud](https://rstudio.cloud)
+#' 1. Go to [Posit Cloud](https://posit.cloud)
 #' 2. Create a free account
 #' 3. Click "New Project" in the upper right
+#' 3.5 Select RStudio Cloud
 #' 4. After your new project opens, name it by replacing "Untitled Project" with something more meaningful (maybe "Wallace")
 #' 
 #' ## Run Locally
@@ -51,7 +53,7 @@
 #' 
 #' Open the Wallace graphical user interface (GUI) by running the following commands:
 #' 
-## ---- eval=F-------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 ## library(wallace)  # Load the library
 ## run_wallace()     # Open Wallace
 
@@ -68,7 +70,7 @@
 #' 
 #' # Get Occurrence Data
 #' 
-#' Start by getting about 100 records of **Acer saccharum** (sugar maple) from GBIF. Throughout, I'll use a red arrow in the images below to indicate which buttons I'm referring to.
+#' Start by getting about 100 records of **Acer saccharum** (sugar maple) from GBIF. Throughout, I'll use a red arrow in the images below to indicate which buttons I'm referring to.  The interface has changed a little from the screenshots below, but they will still be helpful.
 #' 
 #' <!-- To download the data click [here](https://github.com/cmerow/RDataScience/blob/gh-pages/SDM_assets/Outputs/a_rubrum_gbif.csv) -->
 #' <!-- # ```{r} -->

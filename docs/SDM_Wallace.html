@@ -1,40 +1,54 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
 <title>Species Distribution Modelling with Wallace</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -47,38 +61,12 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,13 +74,8 @@ h6 {
   margin-left: auto;
   margin-right: auto;
 }
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -103,44 +86,59 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
+.dropdown-submenu {
+  position: relative;
 }
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
 }
-
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
 }
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
 }
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
 }
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
+.dropdown-submenu.pull-left {
+  float: none;
 }
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -151,54 +149,85 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
-
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -212,6 +241,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -247,8 +282,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -258,8 +291,18 @@ div.tocify {
 
 </style>
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -273,7 +316,7 @@ div.tocify {
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -286,7 +329,7 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Content
      
     <span class="caret"></span>
@@ -310,11 +353,12 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
-<h1 class="title toc-ignore">Species Distribution Modelling with Wallace</h1>
+<h1 class="title toc-ignore">Species Distribution Modelling with
+Wallace</h1>
 
 </div>
 
@@ -330,65 +374,106 @@ div.tocify {
 <!-- [<i class="fa fa-file-code-o fa-3x" aria-hidden="true"></i> The R Script associated with this page is available here](scripts/SDM_Wallace.R).  Download this file and open it (or copy-paste into a new script) with RStudio so you can follow along.   -->
 <div id="overview-and-objectives" class="section level1">
 <h1>Overview and Objectives</h1>
-<p>In this exercise you will develop a simple species distribution model.</p>
+<p>In this exercise you will develop a simple species distribution
+model.</p>
 <p>Objectives:</p>
 <ol style="list-style-type: decimal">
 <li>Understand how species distribution models work</li>
-<li>Use the wallace software to develop a species distribution model and project it into a new time or place.</li>
+<li>Use the wallace software to develop a species distribution model and
+project it into a new time or place.</li>
 <li>Understand the limitations of species distribution models.</li>
 </ol>
 </div>
 <div id="setup" class="section level1 tabset">
-<h1>Setup</h1>
-<div id="run-in-rstudio-cloud" class="section level2">
-<h2>Run in RStudio Cloud</h2>
-<p>You can use wallace (and run R) in the cloud with <a href="https://rstudio.cloud">RStudio Cloud</a>. This is a free-to-use service of RStudio. Note that Wallace is more unstable this way, so it may freeze up on you and you’ll need to start over. However, it doesn’t take much time to re-run an analysis so this isn’t a huge problem.</p>
+<h1 class="tabset">Setup</h1>
+<div id="run-in-posit-cloud" class="section level2">
+<h2>Run in Posit Cloud</h2>
+<p>You can use wallace (and run R) in the cloud with <a
+href="https://posit.cloud">Posit Cloud</a>. This is a free-to-use
+service that allows you to run RStudio or Python in a web browser. Note
+that Wallace is more unstable this way, so it may freeze up on you and
+you’ll need to start over. However, it doesn’t take much time to re-run
+an analysis so this isn’t a huge problem.</p>
 <ol style="list-style-type: decimal">
-<li>Go to <a href="https://rstudio.cloud">RStudio Cloud</a></li>
+<li>Go to <a href="https://posit.cloud">Posit Cloud</a></li>
 <li>Create a free account</li>
-<li>Click “New Project” in the upper right</li>
-<li>After your new project opens, name it by replacing “Untitled Project” with something more meaningful (maybe “Wallace”)</li>
+<li>Click “New Project” in the upper right 3.5 Select RStudio Cloud</li>
+<li>After your new project opens, name it by replacing “Untitled
+Project” with something more meaningful (maybe “Wallace”)</li>
 </ol>
 </div>
 <div id="run-locally" class="section level2">
 <h2>Run Locally</h2>
-<p>For <code>wallace</code> to work, <strong>you need the latest version of R</strong> (or at least later than version 3.2.4). Download for <a href="https://cran.r-project.org/bin/windows/base/">Windows</a> or <a href="https://cran.r-project.org/bin/macosx/">Mac</a>.</p>
+<p>For <code>wallace</code> to work, <strong>you need the latest version
+of R</strong> (or at least later than version 3.2.4). Download for <a
+href="https://cran.r-project.org/bin/windows/base/">Windows</a> or <a
+href="https://cran.r-project.org/bin/macosx/">Mac</a>.</p>
 </div>
 </div>
 <div id="install-wallace-libraries" class="section level1">
 <h1>Install Wallace libraries</h1>
-<p>Paste the following lines into the middle panel at the <code>&gt;</code> sign:</p>
+<p>Paste the following lines into the middle panel at the
+<code>&gt;</code> sign:</p>
 <pre><code>install.packages(&quot;rgdal&quot;)
 install.packages(&quot;wallace&quot;)</code></pre>
-<p>It will take a few minutes to install this software (and you will see lots of red text flow by). You will only need to install the libraries once. After they are installed you can just load the libraries as shown below.</p>
+<p>It will take a few minutes to install this software (and you will see
+lots of red text flow by). You will only need to install the libraries
+once. After they are installed you can just load the libraries as shown
+below.</p>
 </div>
 <div id="load-and-run-wallace" class="section level1">
 <h1>Load and Run Wallace</h1>
-<p>Open the Wallace graphical user interface (GUI) by running the following commands:</p>
+<p>Open the Wallace graphical user interface (GUI) by running the
+following commands:</p>
 <pre class="r"><code>library(wallace)  # Load the library
 run_wallace()     # Open Wallace</code></pre>
-<p>The <code>wallace</code> GUI will open in your web browser and the R command line will be occupied (you only get a prompt back by pushing ‘escape’). You may need to give permission to open a ‘popup’. <strong>You need to avoid exiting your browser window or closing the R window that initiated <code>wallace</code> or you’ll have to start over! Luckily that’s pretty fast…</strong></p>
-<p><br> Typing <code>run_wallace()</code> will give you the following in your web browser:</p>
+<p>The <code>wallace</code> GUI will open in your web browser and the R
+command line will be occupied (you only get a prompt back by pushing
+‘escape’). You may need to give permission to open a ‘popup’.
+<strong>You need to avoid exiting your browser window or closing the R
+window that initiated <code>wallace</code> or you’ll have to start over!
+Luckily that’s pretty fast…</strong></p>
+<p><br> Typing <code>run_wallace()</code> will give you the following in
+your web browser:</p>
 <p><br> <img src="SDM_assets/Wallace_Intro.png" /></p>
 </div>
 <div id="get-occurrence-data" class="section level1">
 <h1>Get Occurrence Data</h1>
-<p>Start by getting about 100 records of <strong>Acer saccharum</strong> (sugar maple) from GBIF. Throughout, I’ll use a red arrow in the images below to indicate which buttons I’m referring to.</p>
+<p>Start by getting about 100 records of <strong>Acer saccharum</strong>
+(sugar maple) from GBIF. Throughout, I’ll use a red arrow in the images
+below to indicate which buttons I’m referring to. The interface has
+changed a little from the screenshots below, but they will still be
+helpful.</p>
 <!-- To download the data click [here](https://github.com/cmerow/RDataScience/blob/gh-pages/SDM_assets/Outputs/a_rubrum_gbif.csv) -->
 <!-- # ```{r} -->
 <!-- # download.file(url='https://github.com/cmerow/RDataScience/blob/gh-pages/SDM_assets/Outputs/a_rubrum_gbif.csv',destfile='/Users/ctg/Desktop/acer.csv') -->
 <!-- # ``` -->
 <p><br> <img src="SDM_assets/wallace_01.png" /></p>
-<p>Notice that there are tabs along the top, and you can view the sources of the occurrence data. Later you can choose to ditch some if it looks suspect.</p>
+<p>Notice that there are tabs along the top, and you can view the
+sources of the occurrence data. Later you can choose to ditch some if it
+looks suspect.</p>
 <p><br> <img src="SDM_assets/wallace_01b.png" /></p>
-<p><br> Each <strong>Module</strong> (the tabs labeled 1-8 at the top of the screen) comes with guidance and references by select the tabs at the right.</p>
+<p><br> Each <strong>Module</strong> (the tabs labeled 1-8 at the top of
+the screen) comes with guidance and references by select the tabs at the
+right.</p>
 <p><br> <img src="SDM_assets/wallace_01c.png" /></p>
 </div>
 <div id="prepare-occurrences" class="section level1">
 <h1>Prepare Occurrences</h1>
-<p>Now let’s clean up the data. If we want to model <em>A. saccharum</em> in the US, we may want to toss points from other areas (such as Europe). You can do this by drawing a polygon around the points you want to keep. In this case we probably want to keep them all, but for some species there may be errant points that you want to discard.</p>
+<p>Now let’s clean up the data. If we want to model <em>A.
+saccharum</em> in the US, we may want to toss points from other areas
+(such as Europe). You can do this by drawing a polygon around the points
+you want to keep. In this case we probably want to keep them all, but
+for some species there may be errant points that you want to
+discard.</p>
 <p><br> <img src="SDM_assets/wallace_02.png" /></p>
-<p><br> The samples may exhibit spatial autocorrelation, which is best to account for in the model or remove before modeling. For example, there might be a bunch of samples near cities because these are mostly from iNaturalist (citizen science) and citizen often live near cities. So lets spatially thin the points and make sure they’re all at least 10km from one another. It takes a sec. That left me with 61 points for modeling (yours may be different).</p>
+<p><br> The samples may exhibit spatial autocorrelation, which is best
+to account for in the model or remove before modeling. For example,
+there might be a bunch of samples near cities because these are mostly
+from iNaturalist (citizen science) and citizen often live near cities.
+So lets spatially thin the points and make sure they’re all at least
+10km from one another. It takes a sec. That left me with 61 points for
+modeling (yours may be different).</p>
 <p><br></p>
 <p><img src="SDM_assets/wallace_02b.png" /></p>
 <p><br></p>
@@ -396,37 +481,88 @@ run_wallace()     # Open Wallace</code></pre>
 </div>
 <div id="get-environmental-data" class="section level1">
 <h1>Get environmental data</h1>
-<p>Now we need some covariates to describe occurrence patterns. Worldclim is global climate data base that is very popular to both use and complain about. It seems pretty good in regions with lots of weather stations, but has issues, especially with precipitation-related things. Lesson: statistical models have problems if you don’t have data. So its perfectly good for coarse resolution work, and was a decade ahead of competitors that are only emerging now. We’ll add those to Wallace eventually.</p>
-<p>Choose the <strong>10 arcmin</strong> data and press download. The first time you use <code>wallace</code> these data are slowly downloaded; after that you don’t have to wait. <strong>Don’t select finer resolution</strong> or you’ll be downloading while the rest of us are modeling.</p>
+<p>Now we need some covariates to describe occurrence patterns.
+Worldclim is global climate data base that is very popular to both use
+and complain about. It seems pretty good in regions with lots of weather
+stations, but has issues, especially with precipitation-related things.
+Lesson: statistical models have problems if you don’t have data. So its
+perfectly good for coarse resolution work, and was a decade ahead of
+competitors that are only emerging now. We’ll add those to Wallace
+eventually.</p>
+<p>Choose the <strong>10 arcmin</strong> data and press download. The
+first time you use <code>wallace</code> these data are slowly
+downloaded; after that you don’t have to wait. <strong>Don’t select
+finer resolution</strong> or you’ll be downloading while the rest of us
+are modeling.</p>
 <p><br></p>
 <p><img src="SDM_assets/wallace_03.png" /></p>
 <p><br></p>
 </div>
 <div id="prep-environmental-data" class="section level1">
 <h1>Prep environmental data</h1>
-<p>Now we need to choose the extent of the modeling domain. This jargon means that we have to define a sensible region to fit the model. Contrary to many publications, species ranges are not typically best modeling on domains defined by squares or political boundaries. Press some buttons on this screen to explore the options, but end up with something similar to that shown below. Press the <strong>Select</strong> button to trim the environmental layers to this polygon and download the result.</p>
-<p>We will also need to select some <strong>background</strong> points to characterize the available habitat in the region. This will be compared to the habitat of the observations to <em>infer</em> whether there is a relationship with a particular type of environment.</p>
+<p>Now we need to choose the extent of the modeling domain. This jargon
+means that we have to define a sensible region to fit the model.
+Contrary to many publications, species ranges are not typically best
+modeling on domains defined by squares or political boundaries. Press
+some buttons on this screen to explore the options, but end up with
+something similar to that shown below. Press the <strong>Select</strong>
+button to trim the environmental layers to this polygon and download the
+result.</p>
+<p>We will also need to select some <strong>background</strong> points
+to characterize the available habitat in the region. This will be
+compared to the habitat of the observations to <em>infer</em> whether
+there is a relationship with a particular type of environment.</p>
 <p><br></p>
 <p><img src="SDM_assets/wallace_04.png" /></p>
 <p><br></p>
 </div>
 <div id="partition-occurrences" class="section level1">
 <h1>Partition occurrences</h1>
-<p>In order to check whether you’ve built a decent model, you need some data to validate it. One solution is to partition your data into subsets (here 4) and build a models while witholding 1 subset at a time. Here we have 4 subsets, so we build 4 models, allowing us to get 4 independent measures of model performance. This is called k-fold cross-validation, and here k=4. There’s a whole literature on how to best make these subset; one option is to just do it randomly. A better option is to spatially stratify so that your model is forces to predict to regions that weren’t used for fitting. If it predicts well, you know you’ve got the general patterns right and have avoided overfitting to noise in the data. Below, I show some options for spatial stratification. Notice the 4 folds are now shown as 4 colors.</p>
+<p>In order to check whether you’ve built a decent model, you need some
+data to validate it. One solution is to partition your data into subsets
+(here 4) and build a models while witholding 1 subset at a time. Here we
+have 4 subsets, so we build 4 models, allowing us to get 4 independent
+measures of model performance. This is called k-fold cross-validation,
+and here k=4. There’s a whole literature on how to best make these
+subset; one option is to just do it randomly. A better option is to
+spatially stratify so that your model is forces to predict to regions
+that weren’t used for fitting. If it predicts well, you know you’ve got
+the general patterns right and have avoided overfitting to noise in the
+data. Below, I show some options for spatial stratification. Notice the
+4 folds are now shown as 4 colors.</p>
 <p><br> <img src="SDM_assets/wallace_05.png" /></p>
-<p><br> Take a moment to scroll through the log window at the top of the screen and review all the steps you’ve taken so far.</p>
+<p><br> Take a moment to scroll through the log window at the top of the
+screen and review all the steps you’ve taken so far.</p>
 </div>
 <div id="model" class="section level1">
 <h1>Model</h1>
-<p>Finally, we’re going to make use of that results tab in the middle of the screen.</p>
+<p>Finally, we’re going to make use of that results tab in the middle of
+the screen.</p>
 <div id="bioclim" class="section level2">
 <h2>BIOCLIM</h2>
-<p>BIOCLIM is one of the simplest techniques for estimating a species’ niche and distribution. It characterizes the species’ observed environments (upper and lower limits of the training localities) for each axis independently, thereby delimiting its environmental envelope (or n-dimensional hypervolume of Hutchinson; Booth et al. 2014).</p>
-<p>To do so and indicate conditions that are successively more commonly inhabited (inferred higher suitability), BIOCLIM generates a percentile distribution for each environmental predictor variable, considering the values associated with all occurrence localities. It then evaluates the ranking of environmental values for occurrence localities and other grid cells in the study region based on where they fall on these distributions (Hijmans and Graham 2006). The closer to the median percentile value, the more suitable an environmental value is considered, with both tails of the distribution interpreted identically. The minimum percentile score (full range of observed conditions) for any predictor variable is displayed on the map in Module Map Prediction in Component Visualize Model Results.</p>
+<p>BIOCLIM is one of the simplest techniques for estimating a species’
+niche and distribution. It characterizes the species’ observed
+environments (upper and lower limits of the training localities) for
+each axis independently, thereby delimiting its environmental envelope
+(or n-dimensional hypervolume of Hutchinson; Booth et al. 2014).</p>
+<p>To do so and indicate conditions that are successively more commonly
+inhabited (inferred higher suitability), BIOCLIM generates a percentile
+distribution for each environmental predictor variable, considering the
+values associated with all occurrence localities. It then evaluates the
+ranking of environmental values for occurrence localities and other grid
+cells in the study region based on where they fall on these
+distributions (Hijmans and Graham 2006). The closer to the median
+percentile value, the more suitable an environmental value is
+considered, with both tails of the distribution interpreted identically.
+The minimum percentile score (full range of observed conditions) for any
+predictor variable is displayed on the map in Module Map Prediction in
+Component Visualize Model Results.</p>
 </div>
 <div id="model-summary" class="section level2">
 <h2>Model summary</h2>
-<p>Look at the <strong>Results</strong> tab to see model summary statistics. You can read more about these metrics in the “Component Guidance” tab.</p>
+<p>Look at the <strong>Results</strong> tab to see model summary
+statistics. You can read more about these metrics in the “Component
+Guidance” tab.</p>
 <p><img src="SDM_assets/wallace_06.png" /></p>
 </div>
 </div>
@@ -434,14 +570,21 @@ run_wallace()     # Open Wallace</code></pre>
 <h1>7 Visualize</h1>
 <div id="bioclim-envelope-plots" class="section level2">
 <h2>BIOCLIM Envelope Plots</h2>
-<p>To evaluate whether the model makes biological sense, we can look at climatic envelopes that define the estimated ‘hyperdimensional’ niche.</p>
-<div class="well">
-<h2 id="bioclim-variables">BIOCLIM variables</h2>
-The <strong>bioclim</strong> predictors are a series of summaries of temp and precip that may have some biological significance. <button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo1">Show variables</button>
+<p>To evaluate whether the model makes biological sense, we can look at
+climatic envelopes that define the estimated ‘hyperdimensional’
+niche.</p>
+</div>
+<div id="bioclim-variables" class="section level2 well">
+<h2>BIOCLIM variables</h2>
+The <strong>bioclim</strong> predictors are a series of summaries of
+temp and precip that may have some biological significance.
+<button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo1">Show
+variables</button>
 <div id="demo1" class="collapse">
 <ul>
 <li>BIO1 = Annual Mean Temperature</li>
-<li>BIO2 = Mean Diurnal Range (Mean of monthly (max temp - min temp))</li>
+<li>BIO2 = Mean Diurnal Range (Mean of monthly (max temp - min
+temp))</li>
 <li>BIO3 = Isothermality (BIO2/BIO7) (* 100)</li>
 <li>BIO4 = Temperature Seasonality (standard deviation *100)</li>
 <li>BIO5 = Max Temperature of Warmest Month</li>
@@ -460,78 +603,128 @@ The <strong>bioclim</strong> predictors are a series of summaries of temp and pr
 <li>BIO18 = Precipitation of Warmest Quarter</li>
 <li>BIO19 = Precipitation of Coldest Quarter</li>
 </ul>
-<p>Read more about them <a href="http://www.worldclim.org/bioclim">here</a>.</p>
+<p>Read more about them <a
+href="http://www.worldclim.org/bioclim">here</a>.</p>
 </div>
 </div>
-<p>See below for a graph of two of the BIOCLIM variables with presences (red crosses) and background points (green circles). The blue box represents the ‘climate envelope’. On first glance the envelop does not seem to do a great job for these two variables, but withhold judgement until you assess the maps below. Note that the units for temperature variables are degrees C x 100; worldclim serves the files this way to compress them.)</p>
+<p>See below for a graph of two of the BIOCLIM variables with presences
+(red crosses) and background points (green circles). The blue box
+represents the ‘climate envelope’. On first glance the envelop does not
+seem to do a great job for these two variables, but withhold judgement
+until you assess the maps below. Note that the units for temperature
+variables are degrees C x 100; worldclim serves the files this way to
+compress them.)</p>
 <p><img src="SDM_assets/wallace_07.png" /></p>
-</div>
 <div id="map-predictions" class="section level2">
 <h2>Map Predictions</h2>
-<p>We can also map the predictions. At first glance it looks like a decent model because the presence points correspond to regions of higher suitability.</p>
+<p>We can also map the predictions. At first glance it looks like a
+decent model because the presence points correspond to regions of higher
+suitability.</p>
 <p><img src="SDM_assets/wallace_07b.png" /></p>
-<p>If you want to estimate presence/absence instead of a continuous suitability, select a threshold.</p>
+<p>If you want to estimate presence/absence instead of a continuous
+suitability, select a threshold.</p>
 <p><img src="SDM_assets/wallace_07c.png" /></p>
 </div>
 </div>
 <div id="project" class="section level1">
 <h1>8 Project</h1>
-<p>Next we can evaluate the models ability to project first to new locations (extending the domain) and/or new times (2070). First, extend the domain by drawing a polygon like the one below. Double-clicking on each of the 4 corners of this one draws the polygon. Next, press <code>Select</code> and then <code>Project</code> to build the new map.</p>
+<p>Next we can evaluate the models ability to project first to new
+locations (extending the domain) and/or new times (2070). First, extend
+the domain by drawing a polygon like the one below. Double-clicking on
+each of the 4 corners of this one draws the polygon. Next, press
+<code>Select</code> and then <code>Project</code> to build the new
+map.</p>
 <p><img src="SDM_assets/wallace_08.png" /></p>
-<p>See below for the projected change in the range of this species in 2070.</p>
+<p>See below for the projected change in the range of this species in
+2070.</p>
 <p><img src="SDM_assets/wallace_08b.png" /></p>
-<div class="well">
-<h2 id="maxent">MAXENT</h2>
+<div id="maxent" class="section level2 well">
+<h2>MAXENT</h2>
 <button data-toggle="collapse" class="btn btn-primary btn-sm round" data-target="#demo2">
 Show Details
 </button>
 <div id="demo2" class="collapse">
-<p>Maxent is a much more sophisticated modeling framework that has many advantages over the ‘bioclim’ approach used above. However, it tends to crash the Rstudio.cloud platform more often than bioclim. If you are feeling adventurous, you can try the following.</p>
-<p>Maxent is a machine learning method that fits wiggly functions to patterns in the data. Its great for exploring complex patterns. If you construct it with a particular set of decisions it becomes very similar to a simple GLM. ### MAXENT settings</p>
-<p>In the Modeling Tab, select “Maxent” and under Algorithm, select “maxnet.” Then explore the various options below.</p>
+<p>Maxent is a much more sophisticated modeling framework that has many
+advantages over the ‘bioclim’ approach used above. However, it tends to
+crash the Rstudio.cloud platform more often than bioclim. If you are
+feeling adventurous, you can try the following.</p>
+<p>Maxent is a machine learning method that fits wiggly functions to
+patterns in the data. Its great for exploring complex patterns. If you
+construct it with a particular set of decisions it becomes very similar
+to a simple GLM. ### MAXENT settings</p>
+<p>In the Modeling Tab, select “Maxent” and under Algorithm, select
+“maxnet.” Then explore the various options below.</p>
 <ul>
-<li>Select LQH features. These are the shapes that can be fit to the data:
+<li>Select LQH features. These are the shapes that can be fit to the
+data:
 <ul>
 <li>L = Linear, e.g. temp + precip</li>
 <li>Q = Quadratic, e.g. temp^2 + precip^2</li>
 <li>P = Product, e.g. interaction terms of the form temp*precip</li>
-<li>H = Hinge, e.g. piecewise linear functions. Taking all possible pairs of these between data points, you can build a very flexible function, similar to a GAM (generalized additive model).</li>
-<li>T = Threshold, e.g. step functions between each pair of data points</li>
+<li>H = Hinge, e.g. piecewise linear functions. Taking all possible
+pairs of these between data points, you can build a very flexible
+function, similar to a GAM (generalized additive model).</li>
+<li>T = Threshold, e.g. step functions between each pair of data
+points</li>
 </ul></li>
 </ul>
 <p><br> <img src="SDM_assets/hinge_threshold.png" /></p>
 <ul>
 <li>Select regularization multipliers between 1-3
 <ul>
-<li>regularization is a way to reduce model complexity. Higher values = smoother, less complex models. Its kind of like using AIC during model fitting to toss out certain predictors. Just ask for more details.</li>
+<li>regularization is a way to reduce model complexity. Higher values =
+smoother, less complex models. Its kind of like using AIC during model
+fitting to toss out certain predictors. Just ask for more details.</li>
 </ul></li>
 <li>RM Step Value = 1
 <ul>
-<li>how large of step to take between values in the slide bar above.</li>
+<li>how large of step to take between values in the slide bar
+above.</li>
 </ul></li>
 </ul>
-<p>In the figure below is the non-linear response curve for this species with BIO05 (Max Temperature of Warmest Month). The shape of this curve suggests that this species prefers mid-range temperatures (not too hot, not too cold).</p>
+<p>In the figure below is the non-linear response curve for this species
+with BIO05 (Max Temperature of Warmest Month). The shape of this curve
+suggests that this species prefers mid-range temperatures (not too hot,
+not too cold).</p>
 <p><img src="SDM_assets/wallace_maxent_01.png" /></p>
-<p>The figure below shows the projected suitability of this species across the original domain using MAXENT.</p>
+<p>The figure below shows the projected suitability of this species
+across the original domain using MAXENT.</p>
 <p><img src="SDM_assets/wallace_maxent_02.png" /></p>
 </div>
 </div>
 </div>
 <div id="extracting-the-code" class="section level1">
 <h1>Extracting the code</h1>
-<p>A major advantage of <code>wallace</code> compared to other GUI-based software is that you can extract all the code used to run the analysis. This allows you to recall what you did, share it, or modify it. The code is best extracted in <strong>R markdown</strong> format, which is a convienient format for combining R and text (and actually forms the basis of this website). Other formats are also available; for example Microsoft Word output mught be useful if you live in the ’90s.</p>
-<p>To download the code, select Rmd and click Download. You may need to go to your R window and allow R to set up a cache to proceed. Extraction takes a minute; currently it has to rerun all the analyses we just did.</p>
+<p>A major advantage of <code>wallace</code> compared to other GUI-based
+software is that you can extract all the code used to run the analysis.
+This allows you to recall what you did, share it, or modify it. The code
+is best extracted in <strong>R markdown</strong> format, which is a
+convienient format for combining R and text (and actually forms the
+basis of this website). Other formats are also available; for example
+Microsoft Word output mught be useful if you live in the ’90s.</p>
+<p>To download the code, select Rmd and click Download. You may need to
+go to your R window and allow R to set up a cache to proceed. Extraction
+takes a minute; currently it has to rerun all the analyses we just
+did.</p>
 <p><br></p>
 <p><img src="SDM_assets/Wallace9a.png" /></p>
 <p><br></p>
-<p>Now, you should have an .Rmd file that contains your complete analysis. Sometimes, if you make a bunch of mistakes while playing with the GUI, you might get an error when extracting the .Rmd.</p>
-<p>Rmd files combine regular text with <strong>code chunks</strong>, shown by the red arrow below. Modules from <code>wallace</code> are indicated as headers denoted by <strong>###</strong>. For a quick reference to Rmd syntax, see <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">here</a></p>
+<p>Now, you should have an .Rmd file that contains your complete
+analysis. Sometimes, if you make a bunch of mistakes while playing with
+the GUI, you might get an error when extracting the .Rmd.</p>
+<p>Rmd files combine regular text with <strong>code chunks</strong>,
+shown by the red arrow below. Modules from <code>wallace</code> are
+indicated as headers denoted by <strong>###</strong>. For a quick
+reference to Rmd syntax, see <a
+href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">here</a></p>
 <p><br></p>
 <p><img src="SDM_assets/WallaceRMDa.png" /> <br></p>
 </div>
 <div id="assignment" class="section level1">
 <h1>Assignment</h1>
-<p>You will use the workflow detailed above to study how the distibution of a species could be affected by future climate change. You may select any species (or potentially use the sugar maple as outlined above).</p>
+<p>You will use the workflow detailed above to study how the distibution
+of a species could be affected by future climate change. You may select
+any species (or potentially use the sugar maple as outlined above).</p>
 </div>
 
 <!-- Google Analytics -->
@@ -570,13 +763,59 @@ Show Details
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 
